@@ -19,6 +19,7 @@ import {
   ChevronsUpDown,
   ArrowUp,
   ArrowDown,
+  Download,
 } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -525,9 +526,13 @@ function EditarCv() {
             </Link>
           </Button>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => window.print()}>
+              <Download className="h-4 w-4" />
+              <span className="hidden sm:inline ml-2">Descarregar PDF</span>
+            </Button>
             <Button size="sm" onClick={guardar} disabled={aGuardar}>
               <Save className="h-4 w-4" />
-              {aGuardar ? "A guardar..." : "Guardar"}
+              <span className="ml-2">{aGuardar ? "A guardar..." : "Guardar"}</span>
             </Button>
           </div>
         </div>

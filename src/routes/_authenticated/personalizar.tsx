@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowDown, ArrowUp, Eye, EyeOff, Save, RotateCcw } from "lucide-react";
+import { ArrowLeft, ArrowDown, ArrowUp, Eye, EyeOff, Save, RotateCcw, Download } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -168,6 +168,10 @@ function Personalizar() {
             <Button variant="outline" size="sm" onClick={reiniciar}>
               <RotateCcw className="h-4 w-4" />
               <span className="hidden sm:inline">Repor</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => window.print()}>
+              <Download className="h-4 w-4" />
+              <span className="hidden sm:inline">Descarregar PDF</span>
             </Button>
             <Button size="sm" onClick={guardar} disabled={aGuardar || isLoading}>
               <Save className="h-4 w-4" />
