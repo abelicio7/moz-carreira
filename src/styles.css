@@ -274,7 +274,7 @@
 
   /* O contêiner da folha do currículo deve ocupar tamanho A4 exato */
   .max-w-\[794px\] {
-    max-w-none !important;
+    max-width: none !important;
     width: 210mm !important;
     height: 297mm !important;
     margin: 0 auto !important;
