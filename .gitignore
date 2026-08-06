@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Supabase Local CLI and Temp Files
+/bin/
+supabase/.temp/

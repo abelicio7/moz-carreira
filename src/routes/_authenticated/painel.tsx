@@ -38,11 +38,11 @@ const accoes: {
   titulo: string;
   texto: string;
   destaque?: boolean;
-  para?: "/modelos" | "/personalizar";
+  para?: "/modelos" | "/personalizar" | "/editar-cv";
 }[] = [
   { icon: LayoutTemplate, titulo: "Modelos", texto: "12 modelos profissionais", destaque: true, para: "/modelos" },
   { icon: Sparkles, titulo: "Personalizar", texto: "Cores, tipografia, espaçamento e secções", destaque: true, para: "/personalizar" },
-  { icon: FilePlus2, titulo: "Criar Currículo", texto: "Comece do zero em 8 passos guiados" },
+  { icon: FilePlus2, titulo: "Criar Currículo", texto: "Comece do zero em 8 passos guiados", para: "/editar-cv" },
   { icon: FolderOpen, titulo: "Meus Currículos", texto: "Editar, duplicar e exportar" },
   { icon: Mail, titulo: "Carta de Apresentação", texto: "Gerada a partir do seu currículo" },
   { icon: Heart, titulo: "Carta de Motivação", texto: "Para bolsas e candidaturas" },
@@ -146,6 +146,10 @@ function Painel() {
               <Link key={a.titulo} to="/personalizar" search={{}}>
                 {conteudo}
               </Link>
+            ) : a.para === "/editar-cv" ? (
+              <Link key={a.titulo} to="/editar-cv" search={{}}>
+                {conteudo}
+              </Link>
             ) : (
               <div key={a.titulo}>{conteudo}</div>
             );
@@ -157,20 +161,21 @@ function Painel() {
           {curriculos && curriculos.length > 0 ? (
             <div className="mt-4 grid gap-3">
               {curriculos.map((c) => (
-                <Card
-                  key={c.id}
-                  className="flex-row items-center justify-between gap-4 border-border/70 p-4 shadow-soft"
-                >
-                  <div className="min-w-0">
-                    <p className="truncate font-semibold">{c.titulo}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Actualizado em {new Date(c.updated_at).toLocaleDateString("pt-PT")}
-                    </p>
-                  </div>
-                  <Badge variant="secondary" className="shrink-0 capitalize">
-                    {c.status}
-                  </Badge>
-                </Card>
+                <Link key={c.id} to="/editar-cv" search={{ cv: c.id }} className="block">
+                  <Card
+                    className="flex-row items-center justify-between gap-4 border-border/70 p-4 shadow-soft transition-smooth hover:-translate-y-0.5 hover:shadow-lift cursor-pointer"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-semibold">{c.titulo}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Actualizado em {new Date(c.updated_at).toLocaleDateString("pt-PT")}
+                      </p>
+                    </div>
+                    <Badge variant="secondary" className="shrink-0 capitalize">
+                      {c.status}
+                    </Badge>
+                  </Card>
+                </Link>
               ))}
             </div>
           ) : (
