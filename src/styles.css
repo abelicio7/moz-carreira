@@ -282,6 +282,18 @@
     box-shadow: none !important;
   }
 
+  /* O contêiner da folha de carta (.printable-sheet) deve ocupar tamanho A4 exato na impressão */
+  .printable-sheet {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 20mm 15mm !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    margin: 0 auto !important;
+    background: white !important;
+    color: black !important;
+  }
+
   /* Forçar que as cores de fundo de elementos e textos sejam renderizadas na impressão */
   * {
     -webkit-print-color-adjust: exact !important;
