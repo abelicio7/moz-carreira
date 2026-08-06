@@ -38,11 +38,12 @@ const accoes: {
   titulo: string;
   texto: string;
   destaque?: boolean;
-  para?: "/modelos" | "/personalizar" | "/editar-cv" | "/gerar-carta";
+  para?: "/modelos" | "/personalizar" | "/editar-cv" | "/gerar-carta" | "/assistente-ia";
   searchTipo?: "apresentacao" | "motivacao";
 }[] = [
   { icon: LayoutTemplate, titulo: "Modelos", texto: "12 modelos profissionais", destaque: true, para: "/modelos" },
   { icon: Sparkles, titulo: "Personalizar", texto: "Cores, tipografia, espaçamento e secções", destaque: true, para: "/personalizar" },
+  { icon: Sparkles, titulo: "Criar com IA 🤖", texto: "Entrevista interativa com assistente inteligente", destaque: true, para: "/assistente-ia" },
   { icon: FilePlus2, titulo: "Criar Currículo", texto: "Comece do zero em 8 passos guiados", para: "/editar-cv" },
   { icon: FolderOpen, titulo: "Meus Currículos", texto: "Editar, duplicar e exportar" },
   { icon: Mail, titulo: "Carta de Apresentação", texto: "Gerada a partir do seu currículo", para: "/gerar-carta", searchTipo: "apresentacao" },
@@ -153,6 +154,10 @@ function Painel() {
               </Link>
             ) : a.para === "/gerar-carta" ? (
               <Link key={a.titulo} to="/gerar-carta" search={{ tipo: a.searchTipo as any }}>
+                {conteudo}
+              </Link>
+            ) : a.para === "/assistente-ia" ? (
+              <Link key={a.titulo} to="/assistente-ia">
                 {conteudo}
               </Link>
             ) : (
