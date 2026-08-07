@@ -5,6 +5,13 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 
+console.log("BUILD ENV CHECK:", {
+  VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL ? "DEFINED" : "UNDEFINED",
+  VITE_SUPABASE_PUBLISHABLE_KEY: process.env.VITE_SUPABASE_PUBLISHABLE_KEY ? "DEFINED" : "UNDEFINED",
+  SUPABASE_URL: process.env.SUPABASE_URL ? "DEFINED" : "UNDEFINED",
+  SUPABASE_PUBLISHABLE_KEY: process.env.SUPABASE_PUBLISHABLE_KEY ? "DEFINED" : "UNDEFINED",
+});
+
 export default defineConfig({
   plugins: [
     tsconfigPaths(),
