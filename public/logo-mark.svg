@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <!-- Stylized M shape with upward growth lines -->
+  <path d="M20 75V35L45 58L55 58L80 35V75" stroke="url(#logo-gradient)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Rocket/growth path rising from the center M -->
+  <path d="M50 50L50 25" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M42 33L50 25L58 33" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
