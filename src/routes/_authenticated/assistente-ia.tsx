@@ -160,8 +160,10 @@ function AssistenteIa() {
 
       // Call server function
       const res = await estruturarCurriculoFn({
-        respostas: respostas as any,
-        authToken: token,
+        data: {
+          respostas: respostas as any,
+          authToken: token,
+        },
       });
 
       toast.success("Currículo estruturado e gerado com sucesso pela IA!");

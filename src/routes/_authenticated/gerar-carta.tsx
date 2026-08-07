@@ -110,12 +110,14 @@ function GerarCarta() {
       }
 
       const res = await gerarCartaFn({
-        curriculoId: selectedCv,
-        tipo,
-        tituloVaga: vaga,
-        empresa: empresa || "Empresa Recrutadora",
-        descricaoVaga: descricao,
-        authToken: token,
+        data: {
+          curriculoId: selectedCv,
+          tipo,
+          tituloVaga: vaga,
+          empresa: empresa || "Empresa Recrutadora",
+          descricaoVaga: descricao,
+          authToken: token,
+        },
       });
 
       setCartaGerada(res.texto);
