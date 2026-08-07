@@ -8,7 +8,7 @@ export function Logo({
   variant?: "full" | "mark";
   className?: string;
 }) {
-  const src = variant === "mark" ? "/logo-mark.svg" : "/logo-full.svg";
+  const src = variant === "mark" ? "/logo-mark.png" : "/logo-full.png";
   return (
     <img
       src={src}
