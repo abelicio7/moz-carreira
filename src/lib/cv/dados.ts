@@ -8,6 +8,12 @@ export interface DadosCV {
   local: string;
   linkedin?: string;
   resumo: string;
+  filiacao?: string;
+  nacionalidade?: string;
+  data_nascimento?: string;
+  local_nascimento?: string;
+  bi?: string;
+  estado_civil?: string;
   experiencias: { cargo: string; empresa: string; local?: string; periodo: string; descricao?: string }[];
   formacoes: { curso: string; instituicao: string; periodo: string; descricao?: string }[];
   competencias: { nome: string; nivel: number }[];

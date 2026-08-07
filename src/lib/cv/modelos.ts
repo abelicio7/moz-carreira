@@ -18,6 +18,19 @@ export interface ModeloCV {
 
 export const MODELOS: ModeloCV[] = [
   {
+    id: "mocambicano",
+    nome: "Moçambicano Tradicional",
+    descricao: "Modelo oficial tradicional de Moçambique, com identificação pessoal detalhada e numeração romana.",
+    categoria: "Clássico",
+    premium: false,
+    barra: "none",
+    cabecalho: "centrado",
+    divisor: "linha",
+    maiusculas: true,
+    corPadrao: "#111827",
+    tipografiaPadrao: "lora",
+  },
+  {
     id: "minimalista",
     nome: "Minimalista",
     descricao: "Linhas limpas, foco total no conteúdo.",

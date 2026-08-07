@@ -167,6 +167,12 @@ function EditarCv() {
   const [local, setLocal] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [resumo, setResumo] = useState("");
+  const [filiacao, setFiliacao] = useState("");
+  const [nacionalidade, setNacionalidade] = useState("");
+  const [dataNascimento, setDataNascimento] = useState("");
+  const [localNascimento, setLocalNascimento] = useState("");
+  const [bi, setBi] = useState("");
+  const [estadoCivil, setEstadoCivil] = useState("");
 
   const [localExperiencias, setLocalExperiencias] = useState<any[]>([]);
   const [localFormacoes, setLocalFormacoes] = useState<any[]>([]);
@@ -244,6 +250,12 @@ function EditarCv() {
     setLocal(dp.local || "");
     setLinkedin(dp.linkedin || "");
     setResumo(dp.resumo || "");
+    setFiliacao(dp.filiacao || "");
+    setNacionalidade(dp.nacionalidade || "");
+    setDataNascimento(dp.data_nascimento || "");
+    setLocalNascimento(dp.local_nascimento || "");
+    setBi(dp.bi || "");
+    setEstadoCivil(dp.estado_civil || "");
   }, [curriculo]);
 
   useEffect(() => {
@@ -296,6 +308,12 @@ function EditarCv() {
       local,
       linkedin,
       resumo,
+      filiacao,
+      nacionalidade,
+      data_nascimento: dataNascimento,
+      local_nascimento: localNascimento,
+      bi,
+      estado_civil: estadoCivil,
       experiencias: localExperiencias.map((e) => ({
         cargo: e.cargo,
         empresa: e.empresa,
@@ -334,7 +352,28 @@ function EditarCv() {
         telefone: r.telefone || undefined,
       })),
     };
-  }, [nome, cargo, email, telefone, local, linkedin, resumo, localExperiencias, localFormacoes, localCompetencias, localIdiomas, localCertificados, localProjetos, localReferencias]);
+  }, [
+    nome,
+    cargo,
+    email,
+    telefone,
+    local,
+    linkedin,
+    resumo,
+    filiacao,
+    nacionalidade,
+    dataNascimento,
+    localNascimento,
+    bi,
+    estadoCivil,
+    localExperiencias,
+    localFormacoes,
+    localCompetencias,
+    localIdiomas,
+    localCertificados,
+    localProjetos,
+    localReferencias,
+  ]);
 
   // Save mechanism
   const guardar = async () => {
@@ -345,7 +384,21 @@ function EditarCv() {
       if (!auth?.user) throw new Error("Sessão expirada");
 
       // 1. Save general data / dados_pessoais
-      const newDadosPessoais = { nome, cargo, email, telefone, local, linkedin, resumo };
+      const newDadosPessoais = {
+        nome,
+        cargo,
+        email,
+        telefone,
+        local,
+        linkedin,
+        resumo,
+        filiacao,
+        nacionalidade,
+        data_nascimento: dataNascimento,
+        local_nascimento: localNascimento,
+        bi,
+        estado_civil: estadoCivil,
+      };
       const { error: cvError } = await supabase
         .from("curriculos")
         .update({ dados_pessoais: newDadosPessoais })
@@ -630,6 +683,67 @@ function EditarCv() {
                     onChange={(e) => setLinkedin(e.target.value)}
                   />
                 </div>
+                {curriculo?.modelo === "mocambicano" && (
+                  <>
+                    <div className="grid gap-2 border-t border-border/50 pt-4 mt-2">
+                      <h3 className="text-sm font-semibold text-primary">Identificação Pessoal Tradicional</h3>
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="nacionalidade">Nacionalidade</Label>
+                      <Input
+                        id="nacionalidade"
+                        placeholder="ex: Moçambicana"
+                        value={nacionalidade}
+                        onChange={(e) => setNacionalidade(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="filiacao">Filiação (Nomes dos Pais)</Label>
+                      <Input
+                        id="filiacao"
+                        placeholder="ex: João Silva e de Maria Silva"
+                        value={filiacao}
+                        onChange={(e) => setFiliacao(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="dataNascimento">Data de Nascimento</Label>
+                      <Input
+                        id="dataNascimento"
+                        placeholder="ex: 05 de Fevereiro de 1994"
+                        value={dataNascimento}
+                        onChange={(e) => setDataNascimento(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="localNascimento">Local de Nascimento</Label>
+                      <Input
+                        id="localNascimento"
+                        placeholder="ex: Chibuto"
+                        value={localNascimento}
+                        onChange={(e) => setLocalNascimento(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="bi">Número do B.I.</Label>
+                      <Input
+                        id="bi"
+                        placeholder="ex: 124500561553I"
+                        value={bi}
+                        onChange={(e) => setBi(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="estadoCivil">Estado Civil</Label>
+                      <Input
+                        id="estadoCivil"
+                        placeholder="ex: Solteiro(a)"
+                        value={estadoCivil}
+                        onChange={(e) => setEstadoCivil(e.target.value)}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             )}
 

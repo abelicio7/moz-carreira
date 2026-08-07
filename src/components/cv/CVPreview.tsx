@@ -49,6 +49,282 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
   const naBarra = temBarra ? activas.filter((s) => SECCOES_BARRA.includes(s)) : [];
   const principais = activas.filter((s) => !naBarra.includes(s));
 
+  if (modelo.id === "mocambicano") {
+    const seccoesMocambicanas = [
+      { id: "dados_pessoais", titulo: "IDENTIFICAÇÃO PESSOAL", temConteudo: true },
+      { id: "formacoes", titulo: "HABILITAÇÕES LITERÁRIAS", temConteudo: dados.formacoes.length > 0 },
+      { id: "certificados", titulo: "FORMAÇÃO PROFISSIONAL", temConteudo: dados.certificados.length > 0 },
+      { id: "experiencias", titulo: "EXPERIÊNCIA PROFISSIONAL", temConteudo: dados.experiencias.length > 0 },
+      { id: "idiomas", titulo: "LÍNGUAS", temConteudo: dados.idiomas.length > 0 },
+      { id: "resumo", titulo: "APTIDÃO", temConteudo: !!dados.resumo || (dados.competencias && dados.competencias.length > 0) },
+      { id: "contactos", titulo: "CONTACTOS", temConteudo: !!dados.telefone || !!dados.email || (dados.referencias && dados.referencias.length > 0) },
+    ].filter((s) => s.temConteudo);
+
+    const renderConteudoMocambicano = (id: string) => {
+      switch (id) {
+        case "dados_pessoais":
+          const parts = dados.nome.trim().split(" ");
+          const apelido = parts.length > 1 ? parts[parts.length - 1] : "";
+          const nomes = parts.length > 1 ? parts.slice(0, -1).join(" ") : dados.nome;
+          const filiacao = dados.filiacao || "";
+          const nacionalidade = dados.nacionalidade || "Moçambicano(a)";
+          const dataNascimento = dados.data_nascimento || "";
+          const localNascimento = dados.local_nascimento || "";
+          const bi = dados.bi || "";
+          const estadoCivil = dados.estado_civil || "Solteiro(a)";
+          const residencia = dados.local || "";
+
+          return (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "180px 1fr",
+                gap: "6px 12px",
+                lineHeight: 1.5,
+                fontFamily: "'Times New Roman', Times, serif",
+              }}
+            >
+              <strong>Apelido:</strong>
+              <span>{apelido}</span>
+
+              <strong>Nomes:</strong>
+              <strong style={{ fontWeight: 700 }}>{nomes}</strong>
+
+              <strong>Nacionalidade:</strong>
+              <span>{nacionalidade}</span>
+
+              {filiacao && (
+                <>
+                  <strong>Filiação:</strong>
+                  <span>{filiacao}</span>
+                </>
+              )}
+
+              {dataNascimento && (
+                <>
+                  <strong>Data de nascimento:</strong>
+                  <span>{dataNascimento}</span>
+                </>
+              )}
+
+              {localNascimento && (
+                <>
+                  <strong>Local de nascimento:</strong>
+                  <span>{localNascimento}</span>
+                </>
+              )}
+
+              {bi && (
+                <>
+                  <strong>B.I. Nº:</strong>
+                  <span>{bi}</span>
+                </>
+              )}
+
+              <strong>Estado civil:</strong>
+              <span>{estadoCivil}</span>
+
+              <strong>Residência:</strong>
+              <span>{residencia}</span>
+            </div>
+          );
+        case "formacoes":
+          return (
+            <div style={{ display: "grid", gap: "6px", fontFamily: "'Times New Roman', Times, serif" }}>
+              {dados.formacoes.map((f, i) => (
+                <div key={i} style={{ lineHeight: 1.5 }}>
+                  {f.periodo && <span>{f.periodo} - </span>}
+                  <span>{f.curso} na {f.instituicao}</span>
+                  {f.descricao && <span style={{ opacity: 0.85 }}> ({f.descricao})</span>}
+                </div>
+              ))}
+            </div>
+          );
+        case "certificados":
+          return (
+            <div style={{ display: "grid", gap: "6px", fontFamily: "'Times New Roman', Times, serif" }}>
+              {dados.certificados.map((c, i) => (
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                  <span style={{ fontWeight: "bold" }}>&gt;</span>
+                  <div>
+                    <span>{c.nome}</span>
+                    {c.instituicao && <span> na {c.instituicao}</span>}
+                    {c.data && <span> ({c.data})</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        case "experiencias":
+          return (
+            <div style={{ display: "grid", gap: "10px", fontFamily: "'Times New Roman', Times, serif" }}>
+              {dados.experiencias.map((e, i) => (
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                  <span style={{ fontWeight: "bold" }}>&gt;</span>
+                  <div>
+                    <span>
+                      {e.cargo} {e.empresa ? `nas ${e.empresa}` : ""} {e.local ? `em ${e.local}` : ""}{" "}
+                      {e.periodo ? `(${e.periodo})` : ""}
+                    </span>
+                    {e.descricao && <p style={{ margin: "2px 0 0", opacity: 0.9 }}>{e.descricao}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          );
+        case "idiomas":
+          return (
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                margin: "10px 0",
+                border: "1px solid #000",
+                fontFamily: "'Times New Roman', Times, serif",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #000", padding: "6px 12px", textAlign: "left" }}>Línguas</th>
+                  <th style={{ border: "1px solid #000", padding: "6px 12px", textAlign: "left" }}>Escrita</th>
+                  <th style={{ border: "1px solid #000", padding: "6px 12px", textAlign: "left" }}>Fala</th>
+                  <th style={{ border: "1px solid #000", padding: "6px 12px", textAlign: "left" }}>Percepção</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dados.idiomas.map((l, i) => {
+                  const nivel = l.nivel || "Fluente";
+                  return (
+                    <tr key={i}>
+                      <td style={{ border: "1px solid #000", padding: "6px 12px" }}>
+                        <strong>{l.idioma}</strong>
+                      </td>
+                      <td style={{ border: "1px solid #000", padding: "6px 12px" }}>{nivel}</td>
+                      <td style={{ border: "1px solid #000", padding: "6px 12px" }}>{nivel}</td>
+                      <td style={{ border: "1px solid #000", padding: "6px 12px" }}>{nivel}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          );
+        case "resumo":
+          return (
+            <div style={{ display: "grid", gap: "8px", fontFamily: "'Times New Roman', Times, serif" }}>
+              {dados.resumo && (
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                  <span style={{ fontWeight: "bold" }}>&gt;</span>
+                  <span>{dados.resumo}</span>
+                </div>
+              )}
+              {dados.competencias && dados.competencias.length > 0 && (
+                <div style={{ display: "grid", gap: "6px" }}>
+                  {dados.competencias.map((c, i) => (
+                    <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                      <span style={{ fontWeight: "bold" }}>&gt;</span>
+                      <span>{c.nome}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        case "contactos":
+          return (
+            <ul
+              style={{
+                paddingLeft: "20px",
+                margin: 0,
+                display: "grid",
+                gap: "6px",
+                listStyleType: "disc",
+                fontFamily: "'Times New Roman', Times, serif",
+              }}
+            >
+              {dados.telefone && (
+                <li>
+                  <span>{dados.telefone} Pessoal</span>
+                </li>
+              )}
+              {dados.email && (
+                <li>
+                  <span>{dados.email} Pessoal</span>
+                </li>
+              )}
+              {dados.referencias &&
+                dados.referencias.map((r, i) => (
+                  <li key={i}>
+                    <span>
+                      {r.telefone} ({r.nome} - {r.cargo || "Referência"})
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          );
+        default:
+          return null;
+      }
+    };
+
+    const ROMANOS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
+    return (
+      <div
+        style={{
+          fontFamily: "'Times New Roman', Times, serif",
+          fontSize: base * 1.05,
+          color: "#000",
+          background: "#fff",
+          padding: `${gap * 1.5}px ${gap * 1.8}px`,
+          minHeight: "100%",
+        }}
+      >
+        <header style={{ textAlign: "center", marginBottom: gap * 1.5 }}>
+          <h1
+            style={{
+              fontSize: base * 1.6,
+              fontWeight: 700,
+              textDecoration: "underline",
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              margin: 0,
+            }}
+          >
+            CURRICULUM VITAE
+          </h1>
+        </header>
+
+        <div>
+          {seccoesMocambicanas.map((s, idx) => (
+            <section key={s.id} style={{ marginBottom: gap * 1.5 }}>
+              <div
+                style={{
+                  background: "#D0E1F9",
+                  padding: "4px 8px",
+                  borderBottom: "1.5px solid #000",
+                  marginBottom: gap * 0.7,
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: base * 1.1,
+                    fontWeight: 700,
+                    color: "#000",
+                    textTransform: "uppercase",
+                    margin: 0,
+                  }}
+                >
+                  {ROMANOS[idx]}. {s.titulo}
+                </h2>
+              </div>
+              <div style={{ padding: "0 8px" }}>{renderConteudoMocambicano(s.id)}</div>
+            </section>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const Titulo = ({ children }: { children: string }) => (
     <div style={{ marginBottom: gap * 0.45 }}>
       <h3
