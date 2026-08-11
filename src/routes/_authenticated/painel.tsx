@@ -8,7 +8,6 @@ import {
   LayoutTemplate,
   Settings,
   User as UserIcon,
-  Crown,
   LogOut,
   Sparkles,
 } from "lucide-react";
@@ -49,7 +48,6 @@ const accoes: {
   { icon: Mail, titulo: "Carta de Apresentação", texto: "Gerada a partir do seu currículo", para: "/gerar-carta", searchTipo: "apresentacao" },
   { icon: Heart, titulo: "Carta de Motivação", texto: "Para bolsas e candidaturas", para: "/gerar-carta", searchTipo: "motivacao" },
   { icon: UserIcon, titulo: "Perfil", texto: "Os seus dados pessoais" },
-  { icon: Crown, titulo: "Plano", texto: "Gerir subscrição e limites" },
   { icon: Settings, titulo: "Configurações", texto: "Tema, idioma e preferências" },
 ];
 
@@ -99,9 +97,6 @@ function Painel() {
             <Logo className="h-8" />
           </Link>
           <div className="flex shrink-0 items-center gap-3">
-            <Badge variant={perfil?.plano === "premium" ? "default" : "secondary"}>
-              {perfil?.plano === "premium" ? "Premium" : "Gratuito"}
-            </Badge>
             <Button variant="ghost" size="sm" onClick={sair}>
               <LogOut className="h-4 w-4" />
               <span className="hidden sm:inline">Sair</span>

@@ -113,7 +113,7 @@ function LandingPage() {
                 </Button>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
-                Grátis para começar · Sem cartão de crédito
+                Pague apenas pelo trabalho realizado · Sem subscrições
               </p>
             </div>
 
@@ -168,7 +168,7 @@ function LandingPage() {
                   <div className="flex items-center justify-between border-t border-border px-4 py-3">
                     <span className="text-sm font-semibold">{m}</span>
                     <span className="text-xs text-muted-foreground">
-                      {i < 2 ? "Grátis" : "Premium"}
+                      A4 PDF
                     </span>
                   </div>
                 </Card>
@@ -180,62 +180,39 @@ function LandingPage() {
         {/* PREÇOS */}
         <section id="precos" className="mx-auto max-w-6xl px-4 py-16 md:py-24">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold sm:text-4xl">Planos simples</h2>
+            <h2 className="text-3xl font-bold sm:text-4xl">Preço justo e transparente</h2>
             <p className="mt-3 text-muted-foreground">
-              Comece grátis. Faça a atualização quando precisar de mais.
+              Sem subscrições mensais ou custos ocultos. Pague apenas pelo trabalho que realizar.
             </p>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <Card className="border-border/70 p-8 shadow-soft">
-              <h3 className="text-xl font-semibold">Gratuito</h3>
-              <p className="mt-1 text-sm text-muted-foreground">Para a primeira candidatura</p>
-              <p className="mt-6 text-4xl font-extrabold">0 MT</p>
-              <ul className="mt-6 space-y-3 text-sm">
-                {["1 currículo", "2 modelos", "Exportação em PDF", "Recursos básicos"].map((f) => (
-                  <li key={f} className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-accent" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Button asChild variant="outline" className="mt-8 w-full">
-                <Link to="/auth" search={{ modo: "registo" }}>
-                  Começar grátis
-                </Link>
-              </Button>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <Card className="border-border/70 p-6 shadow-soft">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                <Check className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 text-lg font-semibold">Crie e edite grátis</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Escreva o seu currículo, experimente todos os modelos e estruture as suas informações gratuitamente.
+              </p>
             </Card>
 
-            <Card className="relative overflow-hidden border-primary/30 bg-gradient-soft p-8 shadow-lift">
-              <span className="absolute top-6 right-6 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
-                Mais popular
+            <Card className="border-border/70 p-6 shadow-soft">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                <Sparkles className="h-5 w-5" />
               </span>
-              <h3 className="text-xl font-semibold">Premium</h3>
-              <p className="mt-1 text-sm text-muted-foreground">Para quem quer o lugar</p>
-              <p className="mt-6 text-4xl font-extrabold">
-                499 MT<span className="text-base font-medium text-muted-foreground">/mês</span>
+              <h3 className="mt-4 text-lg font-semibold">Serviços de IA</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Melhore o seu resumo profissional ou traduza o seu currículo com inteligência artificial pagando por cada utilização.
               </p>
-              <ul className="mt-6 space-y-3 text-sm">
-                {[
-                  "Currículos ilimitados",
-                  "Todos os modelos",
-                  "Assistente de IA",
-                  "Cartas de apresentação e motivação",
-                  "Tradução do currículo",
-                  "Personalização completa",
-                ].map((f) => (
-                  <li key={f} className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-accent" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <Button asChild className="mt-8 w-full">
-                <Link to="/auth" search={{ modo: "registo" }}>
-                  Experimentar Premium
-                </Link>
-              </Button>
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                Pagamentos por M-Pesa e e-Mola em breve
+            </Card>
+
+            <Card className="border-primary/30 bg-gradient-soft p-6 shadow-lift">
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <Download className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 text-lg font-semibold">Pague ao exportar</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Descarregue o seu currículo finalizado em formato PDF profissional de alta qualidade apenas quando estiver pronto para enviar.
               </p>
             </Card>
           </div>
@@ -252,7 +229,7 @@ function LandingPage() {
             </p>
             <Button asChild size="lg" variant="secondary" className="mt-8">
               <Link to="/auth" search={{ modo: "registo" }}>
-                Criar conta gratuita
+                Criar a minha conta
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

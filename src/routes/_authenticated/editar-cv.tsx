@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { CVPreview } from "@/components/cv/CVPreview";
+import { AutoScalePreview } from "@/components/cv/AutoScalePreview";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -1587,13 +1588,13 @@ function EditarCv() {
         <div className="lg:sticky lg:top-24 lg:h-fit">
           <div className="overflow-hidden rounded-2xl border border-border/70 bg-muted p-4 shadow-lift">
             <div className="mx-auto w-full max-w-[794px] overflow-hidden rounded-lg bg-white shadow-soft">
-              <div style={{ aspectRatio: "210 / 297" }} className="overflow-hidden">
+              <AutoScalePreview>
                 <CVPreview
                   modelo={modelo}
                   dados={previewDados}
                   opcoes={opcoes}
                 />
-              </div>
+              </AutoScalePreview>
             </div>
           </div>
         </div>

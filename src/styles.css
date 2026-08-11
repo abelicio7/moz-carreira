@@ -239,37 +239,35 @@
     display: block !important;
     padding: 0 !important;
     margin: 0 !important;
-  }
-
-  main > div {
-    display: block !important;
-    grid-template-columns: 1fr !important;
-    gap: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
   }
 
   /* Ocultar a coluna de formulários (primeira coluna) */
-  main > div > div:first-child {
+  main > div:first-child {
     display: none !important;
   }
 
   /* Expandir a coluna de preview (segunda coluna) */
-  main > div > div:last-child {
+  main > div:last-child {
     display: block !important;
     padding: 0 !important;
     margin: 0 !important;
     border: none !important;
     box-shadow: none !important;
     background: transparent !important;
+    width: 100% !important;
+    max-width: none !important;
   }
 
   /* Remover estilos extras de caixas e shadows */
-  main > div > div:last-child > div {
+  main > div:last-child > div {
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
     background: transparent !important;
+    width: 100% !important;
+    max-width: none !important;
   }
 
   /* O contêiner da folha do currículo deve ocupar tamanho A4 exato */
@@ -280,6 +278,14 @@
     margin: 0 auto !important;
     border: none !important;
     box-shadow: none !important;
+  }
+
+  /* Resetar o wrapper de auto-escala na impressão */
+  .printable-cv-wrapper {
+    transform: none !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
   }
 
   /* O contêiner da folha de carta (.printable-sheet) deve ocupar tamanho A4 exato na impressão */

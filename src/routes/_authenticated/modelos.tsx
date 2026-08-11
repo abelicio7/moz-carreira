@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Crown, Sparkles, ArrowLeft } from "lucide-react";
+import { Check, Sparkles, ArrowLeft } from "lucide-react";
 import { MODELOS } from "@/lib/cv/modelos";
 import { DADOS_EXEMPLO } from "@/lib/cv/dados";
 import { ORDEM_PADRAO, normalizarVisiveis } from "@/lib/cv/personalizacao";
@@ -90,11 +90,7 @@ function Modelos() {
                     }}
                   />
                 </div>
-                {m.premium && (
-                  <Badge className="absolute right-3 top-3 gap-1">
-                    <Crown className="h-3 w-3" /> Premium
-                  </Badge>
-                )}
+                {/* Premium badge removed */}
               </div>
               <div className="flex flex-col gap-2 p-5">
                 <div className="flex items-center justify-between gap-2">

@@ -18,6 +18,7 @@ import {
   type SeccaoId,
 } from "@/lib/cv/personalizacao";
 import { CVPreview } from "@/components/cv/CVPreview";
+import { AutoScalePreview } from "@/components/cv/AutoScalePreview";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -342,13 +343,13 @@ function Personalizar() {
         <div className="lg:sticky lg:top-24 lg:h-fit">
           <div className="overflow-hidden rounded-2xl border border-border/70 bg-muted p-4 shadow-lift">
             <div className="mx-auto w-full max-w-[794px] overflow-hidden rounded-lg bg-white shadow-soft">
-              <div style={{ aspectRatio: "210 / 297" }} className="overflow-hidden">
+              <AutoScalePreview>
                 <CVPreview
                   modelo={modelo}
                   dados={DADOS_EXEMPLO}
                   opcoes={{ cor, tipografia, espacamento, tamanhoFonte, ordem, visiveis }}
                 />
-              </div>
+              </AutoScalePreview>
             </div>
           </div>
         </div>
