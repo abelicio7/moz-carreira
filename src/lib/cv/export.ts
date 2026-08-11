@@ -43,7 +43,7 @@ export async function exportarElementoParaPDF(elementId: string, nomeArquivo: st
     toast.success("PDF descarregado com sucesso!", { id: toastId });
   } catch (error) {
     console.error("Erro ao gerar PDF:", error);
-    toast.error("Não foi possível gerar o descarregamento direto. A abrir área de impressão como alternativa...", { id: toastId });
+    toast.dismiss(toastId);
     window.print();
   }
 }

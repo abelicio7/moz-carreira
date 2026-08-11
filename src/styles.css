@@ -230,7 +230,9 @@
   button,
   .no-print,
   [role="tablist"],
-  aside {
+  aside,
+  [data-sonner-toaster],
+  .sonner-toast {
     display: none !important;
   }
 
