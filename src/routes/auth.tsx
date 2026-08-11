@@ -95,9 +95,10 @@ function AuthPage() {
         });
         if (error) throw error;
         if (data.session) {
-          toast.success("Conta criada com sucesso!");
+          toast.success("Conta criada com sucesso! Bem-vindo(a).");
           navigate({ to: "/painel" });
         } else {
+          toast.warning("A confirmação de e-mail está ativa no Supabase. Por favor, confirme o seu e-mail para entrar.");
           setEmailEnviado(values.email);
         }
         return;
