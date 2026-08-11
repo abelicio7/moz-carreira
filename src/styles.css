@@ -234,6 +234,13 @@
     display: none !important;
   }
 
+  /* Garantir que o cabeçalho do CV/Carta seja visível (não ocultado pela regra acima) */
+  main header,
+  .max-w-\[794px\] header,
+  .printable-sheet header {
+    display: block !important;
+  }
+
   /* Limpar fundos, margens e alturas indesejadas do ecrã */
   html,
   body,
