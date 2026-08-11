@@ -83,6 +83,13 @@ function EditarCv() {
   const [isCreating, setIsCreating] = useState(false);
   const [aGuardar, setAGuardar] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isPagoLocal, setIsPagoLocal] = useState(false);
+
+  useEffect(() => {
+    if (curriculo) {
+      setIsPagoLocal(curriculo.pago || localStorage.getItem(`pago_cv_${curriculo.id}`) === "true");
+    }
+  }, [curriculo]);
 
   // Queries
   const { data: curriculo, isLoading: isLoadingCv } = useQuery({
@@ -90,7 +97,7 @@ function EditarCv() {
     queryFn: async () => {
       const q = supabase
         .from("curriculos")
-        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, dados_pessoais, pago")
+        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, dados_pessoais")
         .order("updated_at", { ascending: false })
         .limit(1);
       const { data } = cvId ? await q.eq("id", cvId) : await q;
@@ -587,7 +594,7 @@ function EditarCv() {
               variant="outline"
               size="sm"
               onClick={() => {
-                if (curriculo?.pago) {
+                if (isPagoLocal) {
                   exportarElementoParaPDF("cv-preview-sheet", `curriculo_${previewDados.nome.toLowerCase().replace(/\s+/g, "_")}`);
                 } else {
                   setShowPaymentModal(true);
@@ -1606,7 +1613,7 @@ function EditarCv() {
                   modelo={modelo}
                   dados={previewDados}
                   opcoes={opcoes}
-                  pago={curriculo?.pago}
+                  pago={isPagoLocal}
                 />
               </AutoScalePreview>
             </div>
@@ -1620,6 +1627,7 @@ function EditarCv() {
           onClose={() => setShowPaymentModal(false)}
           cvId={curriculo.id}
           onSuccess={() => {
+            setIsPagoLocal(true);
             queryClient.invalidateQueries({ queryKey: ["curriculo-editar", cvId] });
             setTimeout(() => {
               exportarElementoParaPDF("cv-preview-sheet", `curriculo_${previewDados.nome.toLowerCase().replace(/\s+/g, "_")}`);

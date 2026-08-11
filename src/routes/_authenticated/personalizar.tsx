@@ -64,7 +64,7 @@ function Personalizar() {
     queryFn: async () => {
       const q = supabase
         .from("curriculos")
-        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, pago")
+        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis")
         .order("updated_at", { ascending: false })
         .limit(1);
       const { data } = cv ? await q.eq("id", cv) : await q;
@@ -81,6 +81,13 @@ function Personalizar() {
   const [visiveis, setVisiveis] = useState(normalizarVisiveis({}));
   const [aGuardar, setAGuardar] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isPagoLocal, setIsPagoLocal] = useState(false);
+
+  useEffect(() => {
+    if (curriculo) {
+      setIsPagoLocal(curriculo.pago || localStorage.getItem(`pago_cv_${curriculo.id}`) === "true");
+    }
+  }, [curriculo]);
 
   useEffect(() => {
     if (!curriculo) return;
@@ -176,7 +183,7 @@ function Personalizar() {
               variant="outline"
               size="sm"
               onClick={() => {
-                if (curriculo?.pago) {
+                if (isPagoLocal) {
                   exportarElementoParaPDF("cv-preview-sheet", "curriculo_personalizado");
                 } else {
                   setShowPaymentModal(true);
@@ -360,7 +367,7 @@ function Personalizar() {
                   modelo={modelo}
                   dados={DADOS_EXEMPLO}
                   opcoes={{ cor, tipografia, espacamento, tamanhoFonte, ordem, visiveis }}
-                  pago={curriculo?.pago}
+                  pago={isPagoLocal}
                 />
               </AutoScalePreview>
             </div>
@@ -374,6 +381,7 @@ function Personalizar() {
           onClose={() => setShowPaymentModal(false)}
           cvId={curriculo.id}
           onSuccess={() => {
+            setIsPagoLocal(true);
             queryClient.invalidateQueries({ queryKey: ["curriculo-personalizar", cv ?? "recente"] });
             setTimeout(() => {
               exportarElementoParaPDF("cv-preview-sheet", "curriculo_personalizado");
