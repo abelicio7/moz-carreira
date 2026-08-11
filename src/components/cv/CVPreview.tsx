@@ -343,6 +343,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           textTransform: modelo.maiusculas ? "uppercase" : "none",
           letterSpacing: modelo.maiusculas ? "0.08em" : "0.01em",
           margin: 0,
+          fontFamily: "inherit",
         }}
       >
         {children}
@@ -506,6 +507,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
               margin: `0 0 ${gap * 0.35}px`,
               textTransform: modelo.maiusculas ? "uppercase" : "none",
               letterSpacing: "0.06em",
+              fontFamily: "inherit",
             }}
           >
             {TITULOS[id]}
@@ -548,6 +550,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           fontWeight: 700,
           letterSpacing: "-0.01em",
           color: cabecalhoEscuro ? "#fff" : cor,
+          fontFamily: "inherit",
         }}
       >
         {dados.nome}
@@ -589,6 +592,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
             margin: `0 0 ${gap * 0.35}px`,
             textTransform: modelo.maiusculas ? "uppercase" : "none",
             letterSpacing: "0.06em",
+            fontFamily: "inherit",
           }}
         >
           Contactos
@@ -630,7 +634,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           <>
             {temBarra ? (
               <header style={{ marginBottom: "10mm" }}>
-                <h1 style={{ margin: 0, fontSize: base * 2, fontWeight: 700, color: cor }}>
+                <h1 style={{ margin: 0, fontSize: base * 2, fontWeight: 700, color: cor, fontFamily: "inherit" }}>
                   {dados.nome}
                 </h1>
                 <p style={{ margin: "2px 0 0", fontSize: base * 1.1, opacity: 0.8 }}>{dados.cargo}</p>
