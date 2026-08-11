@@ -1,0 +1,1 @@
+ALTER TABLE public.curriculos ADD COLUMN pago BOOLEAN NOT NULL DEFAULT false;

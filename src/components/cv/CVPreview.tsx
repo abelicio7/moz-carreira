@@ -21,6 +21,7 @@ interface Props {
   modelo: ModeloCV;
   opcoes: OpcoesCV;
   dados: DadosCV;
+  pago?: boolean;
 }
 
 const TITULOS: Record<SeccaoId, string> = {
@@ -36,7 +37,7 @@ const TITULOS: Record<SeccaoId, string> = {
 
 const SECCOES_BARRA: SeccaoId[] = ["competencias", "idiomas", "certificados"];
 
-export function CVPreview({ modelo, opcoes, dados }: Props) {
+export function CVPreview({ modelo, opcoes, dados, pago = false }: Props) {
   const escala = getEscala(opcoes.espacamento);
   const base = opcoes.tamanhoFonte;
   const gap = 14 * escala;
@@ -56,6 +57,43 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
   const paddingBarra = modelo.barra === "right"
     ? "18mm 18mm 18mm 12mm"
     : "18mm 12mm 18mm 18mm";
+
+  const watermark = !pago && (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-around",
+        pointerEvents: "none",
+        zIndex: 50,
+        overflow: "hidden",
+        padding: "40px 0",
+      }}
+      className="no-print"
+    >
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          style={{
+            fontSize: "42px",
+            fontWeight: 900,
+            color: "rgba(17,24,39,0.045)",
+            transform: "rotate(-25deg)",
+            whiteSpace: "nowrap",
+            textTransform: "uppercase",
+            letterSpacing: "0.15em",
+            userSelect: "none",
+            fontFamily: "sans-serif",
+          }}
+        >
+          MOZ CARREIRA · PRÉ-VISUALIZAÇÃO
+        </div>
+      ))}
+    </div>
+  );
 
   if (modelo.id === "mocambicano") {
     const seccoesMocambicanas = [
@@ -286,8 +324,10 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           background: "#fff",
           padding: "18mm",
           minHeight: "100%",
+          position: "relative",
         }}
       >
+        {watermark}
         <header style={{ textAlign: "center", marginBottom: gap * 1.5 }}>
           <h1
             style={{
@@ -621,8 +661,10 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
         minHeight: "100%",
         textAlign: "left",
         lineHeight: 1.15,
+        position: "relative",
       }}
     >
+      {watermark}
       {barra}
       <div style={{ flex: 1, padding: cabecalhoEscuro && !temBarra ? 0 : paddingMain, minWidth: 0 }}>
         {cabecalhoEscuro && !temBarra ? (

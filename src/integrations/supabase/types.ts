@@ -151,6 +151,7 @@ export type Database = {
           idioma: string
           modelo: string
           ordem_seccoes: Json
+          pago: boolean
           seccoes_visiveis: Json
           status: Database["public"]["Enums"]["cv_status"]
           tamanho_fonte: number
@@ -169,6 +170,7 @@ export type Database = {
           idioma?: string
           modelo?: string
           ordem_seccoes?: Json
+          pago?: boolean
           seccoes_visiveis?: Json
           status?: Database["public"]["Enums"]["cv_status"]
           tamanho_fonte?: number
@@ -187,6 +189,7 @@ export type Database = {
           idioma?: string
           modelo?: string
           ordem_seccoes?: Json
+          pago?: boolean
           seccoes_visiveis?: Json
           status?: Database["public"]["Enums"]["cv_status"]
           tamanho_fonte?: number

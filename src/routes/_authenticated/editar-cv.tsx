@@ -27,6 +27,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CVPreview } from "@/components/cv/CVPreview";
 import { AutoScalePreview } from "@/components/cv/AutoScalePreview";
 import { exportarElementoParaPDF } from "@/lib/cv/export";
+import { PaymentModal } from "@/components/cv/PaymentModal";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -81,6 +82,7 @@ function EditarCv() {
   const [activeStep, setActiveStep] = useState(1);
   const [isCreating, setIsCreating] = useState(false);
   const [aGuardar, setAGuardar] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // Queries
   const { data: curriculo, isLoading: isLoadingCv } = useQuery({
@@ -88,7 +90,7 @@ function EditarCv() {
     queryFn: async () => {
       const q = supabase
         .from("curriculos")
-        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, dados_pessoais")
+        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, dados_pessoais, pago")
         .order("updated_at", { ascending: false })
         .limit(1);
       const { data } = cvId ? await q.eq("id", cvId) : await q;
@@ -584,7 +586,13 @@ function EditarCv() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => exportarElementoParaPDF("cv-preview-sheet", `curriculo_${previewDados.nome.toLowerCase().replace(/\s+/g, "_")}`)}
+              onClick={() => {
+                if (curriculo?.pago) {
+                  exportarElementoParaPDF("cv-preview-sheet", `curriculo_${previewDados.nome.toLowerCase().replace(/\s+/g, "_")}`);
+                } else {
+                  setShowPaymentModal(true);
+                }
+              }}
             >
               <Download className="h-4 w-4" />
               <span className="ml-2">Descarregar PDF</span>
@@ -1598,12 +1606,27 @@ function EditarCv() {
                   modelo={modelo}
                   dados={previewDados}
                   opcoes={opcoes}
+                  pago={curriculo?.pago}
                 />
               </AutoScalePreview>
             </div>
           </div>
         </div>
       </main>
+
+      {curriculo && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          cvId={curriculo.id}
+          onSuccess={() => {
+            queryClient.invalidateQueries({ queryKey: ["curriculo-editar", cvId] });
+            setTimeout(() => {
+              exportarElementoParaPDF("cv-preview-sheet", `curriculo_${previewDados.nome.toLowerCase().replace(/\s+/g, "_")}`);
+            }, 500);
+          }}
+        />
+      )}
     </div>
   );
 }

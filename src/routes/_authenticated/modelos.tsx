@@ -80,6 +80,7 @@ function Modelos() {
                   <CVPreview
                     modelo={m}
                     dados={DADOS_EXEMPLO}
+                    pago={true}
                     opcoes={{
                       cor: m.corPadrao,
                       tipografia: m.tipografiaPadrao,
