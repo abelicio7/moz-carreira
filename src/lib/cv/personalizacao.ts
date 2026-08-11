@@ -11,6 +11,7 @@ export const TIPOGRAFIAS: OpcaoTipografia[] = [
   { id: "sourcesans", nome: "Source Sans 3", familia: '"Source Sans 3", system-ui, sans-serif' },
   { id: "lora", nome: "Lora", familia: '"Lora", Georgia, serif' },
   { id: "merriweather", nome: "Merriweather", familia: '"Merriweather", Georgia, serif' },
+  { id: "times", nome: "Times New Roman", familia: '"Times New Roman", Times, serif' },
 ];
 
 export const getFamilia = (id: string) =>

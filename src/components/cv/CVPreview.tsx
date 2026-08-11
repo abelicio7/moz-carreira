@@ -49,6 +49,14 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
   const naBarra = temBarra ? activas.filter((s) => SECCOES_BARRA.includes(s)) : [];
   const principais = activas.filter((s) => !naBarra.includes(s));
 
+  const paddingMain = temBarra
+    ? (modelo.barra === "right" ? "18mm 15mm 18mm 18mm" : "18mm 18mm 18mm 15mm")
+    : "18mm";
+
+  const paddingBarra = modelo.barra === "right"
+    ? "18mm 18mm 18mm 12mm"
+    : "18mm 12mm 18mm 18mm";
+
   if (modelo.id === "mocambicano") {
     const seccoesMocambicanas = [
       { id: "dados_pessoais", titulo: "IDENTIFICAÇÃO PESSOAL", temConteudo: true },
@@ -80,7 +88,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
                 display: "grid",
                 gridTemplateColumns: "180px 1fr",
                 gap: "6px 12px",
-                lineHeight: 1.5,
+                lineHeight: 1.15,
                 fontFamily: "'Times New Roman', Times, serif",
               }}
             >
@@ -132,7 +140,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           return (
             <div style={{ display: "grid", gap: "6px", fontFamily: "'Times New Roman', Times, serif" }}>
               {dados.formacoes.map((f, i) => (
-                <div key={i} style={{ lineHeight: 1.5 }}>
+                <div key={i} style={{ lineHeight: 1.15 }}>
                   {f.periodo && <span>{f.periodo} - </span>}
                   <span>{f.curso} na {f.instituicao}</span>
                   {f.descricao && <span style={{ opacity: 0.85 }}> ({f.descricao})</span>}
@@ -144,7 +152,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           return (
             <div style={{ display: "grid", gap: "6px", fontFamily: "'Times New Roman', Times, serif" }}>
               {dados.certificados.map((c, i) => (
-                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.15 }}>
                   <span style={{ fontWeight: "bold" }}>&gt;</span>
                   <div>
                     <span>{c.nome}</span>
@@ -157,16 +165,16 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "experiencias":
           return (
-            <div style={{ display: "grid", gap: "10px", fontFamily: "'Times New Roman', Times, serif" }}>
+            <div style={{ display: "grid", gap: "6px", fontFamily: "'Times New Roman', Times, serif" }}>
               {dados.experiencias.map((e, i) => (
-                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.15 }}>
                   <span style={{ fontWeight: "bold" }}>&gt;</span>
                   <div>
                     <span>
                       {e.cargo} {e.empresa ? `nas ${e.empresa}` : ""} {e.local ? `em ${e.local}` : ""}{" "}
                       {e.periodo ? `(${e.periodo})` : ""}
                     </span>
-                    {e.descricao && <p style={{ margin: "2px 0 0", opacity: 0.9 }}>{e.descricao}</p>}
+                    {e.descricao && <p style={{ margin: "4px 0 0", lineHeight: 1.15, opacity: 0.9 }}>{e.descricao}</p>}
                   </div>
                 </div>
               ))}
@@ -210,9 +218,9 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "resumo":
           return (
-            <div style={{ display: "grid", gap: "8px", fontFamily: "'Times New Roman', Times, serif" }}>
+            <div style={{ display: "grid", gap: "6px", fontFamily: "'Times New Roman', Times, serif" }}>
               {dados.resumo && (
-                <div style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.15 }}>
                   <span style={{ fontWeight: "bold" }}>&gt;</span>
                   <span>{dados.resumo}</span>
                 </div>
@@ -220,7 +228,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
               {dados.competencias && dados.competencias.length > 0 && (
                 <div style={{ display: "grid", gap: "6px" }}>
                   {dados.competencias.map((c, i) => (
-                    <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.5 }}>
+                    <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", lineHeight: 1.15 }}>
                       <span style={{ fontWeight: "bold" }}>&gt;</span>
                       <span>{c.nome}</span>
                     </div>
@@ -275,7 +283,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           fontSize: base * 1.05,
           color: "#000",
           background: "#fff",
-          padding: `${gap * 1.5}px ${gap * 1.8}px`,
+          padding: "18mm",
           minHeight: "100%",
         }}
       >
@@ -364,10 +372,10 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
     const conteudo = () => {
       switch (id) {
         case "resumo":
-          return <p style={{ margin: 0, lineHeight: 1.55 }}>{dados.resumo}</p>;
+          return <p style={{ margin: 0, lineHeight: 1.15 }}>{dados.resumo}</p>;
         case "experiencias":
           return (
-            <div style={{ display: "grid", gap: gap * 0.7 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.experiencias.map((e, i) => (
                 <div key={i}>
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
@@ -381,7 +389,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
                     {e.local ? ` · ${e.local}` : ""}
                   </div>
                   {e.descricao && (
-                    <p style={{ margin: "3px 0 0", lineHeight: 1.5, opacity: 0.85 }}>{e.descricao}</p>
+                    <p style={{ margin: "4px 0 0", lineHeight: 1.15, opacity: 0.85 }}>{e.descricao}</p>
                   )}
                 </div>
               ))}
@@ -389,7 +397,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "formacoes":
           return (
-            <div style={{ display: "grid", gap: gap * 0.6 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.formacoes.map((f, i) => (
                 <div key={i}>
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
@@ -400,7 +408,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
                   </div>
                   <div style={{ color: cor, fontSize: base * 0.95 }}>{f.instituicao}</div>
                   {f.descricao && (
-                    <p style={{ margin: "3px 0 0", lineHeight: 1.5, opacity: 0.85 }}>{f.descricao}</p>
+                    <p style={{ margin: "4px 0 0", lineHeight: 1.15, opacity: 0.85 }}>{f.descricao}</p>
                   )}
                 </div>
               ))}
@@ -408,7 +416,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "competencias":
           return (
-            <div style={{ display: "grid", gap: gap * 0.35 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.competencias.map((c, i) => (
                 <div key={i}>
                   <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -437,7 +445,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "idiomas":
           return (
-            <div style={{ display: "grid", gap: gap * 0.3 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.idiomas.map((l, i) => (
                 <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <span>{l.idioma}</span>
@@ -448,7 +456,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "certificados":
           return (
-            <div style={{ display: "grid", gap: gap * 0.3 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.certificados.map((c, i) => (
                 <div key={i}>
                   <div>{c.nome}</div>
@@ -461,12 +469,12 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "projetos":
           return (
-            <div style={{ display: "grid", gap: gap * 0.45 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.projetos.map((p, i) => (
                 <div key={i}>
                   <strong>{p.nome}</strong>
                   {p.descricao && (
-                    <p style={{ margin: "2px 0 0", lineHeight: 1.5, opacity: 0.85 }}>{p.descricao}</p>
+                    <p style={{ margin: "4px 0 0", lineHeight: 1.15, opacity: 0.85 }}>{p.descricao}</p>
                   )}
                 </div>
               ))}
@@ -474,7 +482,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
           );
         case "referencias":
           return (
-            <div style={{ display: "grid", gap: gap * 0.45 }}>
+            <div style={{ display: "grid", gap: "6px" }}>
               {dados.referencias.map((r, i) => (
                 <div key={i}>
                   <strong>{r.nome}</strong>
@@ -527,10 +535,10 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
               ? `linear-gradient(120deg, ${cor} 0%, ${cor}bb 60%, ${cor}77 100%)`
               : "transparent",
         color: cabecalhoEscuro ? "#fff" : "inherit",
-        padding: cabecalhoEscuro ? `${gap * 1.3}px ${gap * 1.6}px` : `0 0 ${gap}px`,
+        padding: cabecalhoEscuro ? "18mm 18mm 12mm 18mm" : "0 0 10mm",
         textAlign: modelo.cabecalho === "centrado" ? "center" : "left",
         borderBottom: modelo.cabecalho === "centrado" ? `2px solid ${cor}` : undefined,
-        marginBottom: gap * 1.2,
+        marginBottom: "10mm",
       }}
     >
       <h1
@@ -568,7 +576,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
       style={{
         background: cor,
         color: "#fff",
-        padding: `${gap * 1.3}px ${gap * 1.1}px`,
+        padding: paddingBarra,
         width: "34%",
         flexShrink: 0,
       }}
@@ -600,26 +608,28 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
       style={{
         fontFamily: getFamilia(opcoes.tipografia),
         fontSize: base,
-        color: "#1a1a1a",
-        background: "#fff",
+        color: "#000000",
+        background: "#ffffff",
         display: "flex",
         flexDirection: modelo.barra === "right" ? "row-reverse" : "row",
         minHeight: "100%",
+        textAlign: "left",
+        lineHeight: 1.15,
       }}
     >
       {barra}
-      <div style={{ flex: 1, padding: cabecalhoEscuro && !temBarra ? 0 : `${gap * 1.4}px ${gap * 1.6}px`, minWidth: 0 }}>
+      <div style={{ flex: 1, padding: cabecalhoEscuro && !temBarra ? 0 : paddingMain, minWidth: 0 }}>
         {cabecalhoEscuro && !temBarra ? (
           <>
             {cabecalho}
-            <div style={{ padding: `0 ${gap * 1.6}px ${gap * 1.4}px` }}>
+            <div style={{ padding: "0 18mm 18mm 18mm" }}>
               {principais.map((id) => renderSeccao(id))}
             </div>
           </>
         ) : (
           <>
             {temBarra ? (
-              <header style={{ marginBottom: gap * 1.2 }}>
+              <header style={{ marginBottom: "10mm" }}>
                 <h1 style={{ margin: 0, fontSize: base * 2, fontWeight: 700, color: cor }}>
                   {dados.nome}
                 </h1>

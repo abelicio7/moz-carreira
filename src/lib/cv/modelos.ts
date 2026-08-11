@@ -27,8 +27,8 @@ export const MODELOS: ModeloCV[] = [
     cabecalho: "centrado",
     divisor: "linha",
     maiusculas: true,
-    corPadrao: "#111827",
-    tipografiaPadrao: "lora",
+    corPadrao: "#000000",
+    tipografiaPadrao: "times",
   },
   {
     id: "minimalista",
@@ -40,8 +40,8 @@ export const MODELOS: ModeloCV[] = [
     cabecalho: "simples",
     divisor: "linha",
     maiusculas: true,
-    corPadrao: "#1B4079",
-    tipografiaPadrao: "inter",
+    corPadrao: "#000000",
+    tipografiaPadrao: "times",
   },
   {
     id: "maputo",
