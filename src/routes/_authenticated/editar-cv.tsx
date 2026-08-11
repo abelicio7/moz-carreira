@@ -26,6 +26,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { CVPreview } from "@/components/cv/CVPreview";
 import { AutoScalePreview } from "@/components/cv/AutoScalePreview";
+import { exportarElementoParaPDF } from "@/lib/cv/export";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -580,9 +581,13 @@ function EditarCv() {
             </Link>
           </Button>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => window.print()}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => exportarElementoParaPDF("cv-preview-sheet", `curriculo_${previewDados.nome.toLowerCase().replace(/\s+/g, "_")}`)}
+            >
               <Download className="h-4 w-4" />
-              <span className="hidden sm:inline ml-2">Descarregar PDF</span>
+              <span className="ml-2">Descarregar PDF</span>
             </Button>
             <Button size="sm" onClick={guardar} disabled={aGuardar}>
               <Save className="h-4 w-4" />

@@ -19,6 +19,7 @@ import {
 } from "@/lib/cv/personalizacao";
 import { CVPreview } from "@/components/cv/CVPreview";
 import { AutoScalePreview } from "@/components/cv/AutoScalePreview";
+import { exportarElementoParaPDF } from "@/lib/cv/export";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -170,9 +171,13 @@ function Personalizar() {
               <RotateCcw className="h-4 w-4" />
               <span className="hidden sm:inline">Repor</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => window.print()}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => exportarElementoParaPDF("cv-preview-sheet", "curriculo_personalizado")}
+            >
               <Download className="h-4 w-4" />
-              <span className="hidden sm:inline">Descarregar PDF</span>
+              <span className="ml-2">Descarregar PDF</span>
             </Button>
             <Button size="sm" onClick={guardar} disabled={aGuardar || isLoading}>
               <Save className="h-4 w-4" />

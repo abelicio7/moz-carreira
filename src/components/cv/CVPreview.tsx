@@ -278,6 +278,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
 
     return (
       <div
+        id="cv-preview-sheet"
         style={{
           fontFamily: "'Times New Roman', Times, serif",
           fontSize: base * 1.05,
@@ -609,6 +610,7 @@ export function CVPreview({ modelo, opcoes, dados }: Props) {
 
   return (
     <div
+      id="cv-preview-sheet"
       style={{
         fontFamily: getFamilia(opcoes.tipografia),
         fontSize: base,

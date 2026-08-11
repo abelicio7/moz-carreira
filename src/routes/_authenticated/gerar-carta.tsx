@@ -11,6 +11,7 @@ import {
   Save,
   Loader2,
   Check,
+  Download,
 } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -28,6 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { gerarCartaFn } from "@/server/functions/carta";
+import { exportarElementoParaPDF } from "@/lib/cv/export";
 
 const searchSchema = z.object({
   tipo: z.enum(["apresentacao", "motivacao"]).catch("apresentacao"),
@@ -185,9 +187,13 @@ function GerarCarta() {
           </div>
           <div className="flex items-center gap-2">
             {cartaGerada && (
-              <Button size="sm" variant="outline" onClick={() => window.print()}>
-                <Printer className="h-4 w-4 mr-2" />
-                Imprimir A4
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => exportarElementoParaPDF("carta-preview-sheet", `carta_${tipo === "apresentacao" ? "apresentacao" : "motivacao"}_${vaga.toLowerCase().replace(/\s+/g, "_")}`)}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Descarregar PDF
               </Button>
             )}
           </div>
@@ -313,7 +319,7 @@ function GerarCarta() {
                 </div>
 
                 {/* Printable Letter Sheet */}
-                <Card className="border border-border/70 bg-white p-8 md:p-12 shadow-lift min-h-[500px] flex flex-col text-foreground leading-relaxed text-sm select-text printable-sheet">
+                <Card id="carta-preview-sheet" className="border border-border/70 bg-white p-8 md:p-12 shadow-lift min-h-[500px] flex flex-col text-foreground leading-relaxed text-sm select-text printable-sheet">
                   {/* Screen Editable Version */}
                   <Textarea
                     value={cartaGerada}
