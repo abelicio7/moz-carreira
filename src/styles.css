@@ -234,6 +234,19 @@
     display: none !important;
   }
 
+  /* Limpar fundos, margens e alturas indesejadas do ecrã */
+  html,
+  body,
+  #app,
+  .min-h-screen {
+    background: white !important;
+    background-color: white !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
   /* Resetar o layout de grid da página principal */
   main {
     display: block !important;
@@ -243,13 +256,26 @@
     max-width: none !important;
   }
 
+  /* Resetar o layout de grid intermédio se existir */
+  main > div {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
   /* Ocultar a coluna de formulários (primeira coluna) */
-  main > div:first-child {
+  main > div:first-child,
+  main > div > div:first-child {
     display: none !important;
   }
 
   /* Expandir a coluna de preview (segunda coluna) */
-  main > div:last-child {
+  main > div:last-child,
+  main > div > div:last-child {
     display: block !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -261,7 +287,8 @@
   }
 
   /* Remover estilos extras de caixas e shadows */
-  main > div:last-child > div {
+  main > div:last-child > div,
+  main > div > div:last-child > div {
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
