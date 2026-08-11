@@ -8,7 +8,7 @@ const loadHtml2Pdf = () => {
     }
     const script = document.createElement("script");
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-    script.integrity = "sha512-GsLlZN/3F2ErC5IfS51RRmC1IQFWddcM0lgu4xgDYRtTJDcnXSg61vcJDxhq9GDyycHLA+UHC54J1yTyTq3RQQ==";
+    script.integrity = "sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==";
     script.crossOrigin = "anonymous";
     script.onload = () => resolve((window as any).html2pdf);
     script.onerror = (err) => reject(err);
