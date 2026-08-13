@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Loader2, Smartphone, ShieldCheck, CreditCard } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { iniciarPagamentoFn, verificarPagamentoFn } from "@/server/functions/pagamento";
 
 interface Props {
   isOpen: boolean;
@@ -25,8 +26,9 @@ export function PaymentModal({ isOpen, onClose, cvId, onSuccess }: Props) {
   const [operadora, setOperadora] = useState("mpesa");
   const [telefone, setTelefone] = useState("");
   const [estado, setEstado] = useState<"dados" | "processando" | "pin" | "sucesso">("dados");
+  const pollIntervalRef = useRef<number | null>(null);
 
-  const iniciarPagamento = (e: React.FormEvent) => {
+  const iniciarPagamento = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!telefone.match(/^(82|83|84|85|86|87)\d{7}$/)) {
       toast.error("Por favor, introduza um número de telemóvel válido de Moçambique.");
@@ -35,38 +37,83 @@ export function PaymentModal({ isOpen, onClose, cvId, onSuccess }: Props) {
 
     setEstado("processando");
 
-    // Simulação do fluxo de pagamento móvel (USSD Push)
-    setTimeout(() => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        throw new Error("Sessão expirada. Inicie sessão novamente.");
+      }
+
+      const res = await iniciarPagamentoFn({
+        cvId,
+        telefone,
+        operadora,
+        authToken: session.access_token,
+      });
+
+      if (!res.success) {
+        throw new Error("Erro ao processar cobrança.");
+      }
+
       setEstado("pin");
-      setTimeout(async () => {
-        // Guardar em localStorage para garantir funcionamento imediato mesmo sem a coluna no banco remoto
-        localStorage.setItem(`pago_cv_${cvId}`, "true");
 
+      // Começar a sondar (polling) o estado do pagamento a cada 3 segundos
+      pollIntervalRef.current = window.setInterval(async () => {
         try {
-          // Tentar atualizar o estado de pago no Supabase
-          await supabase
-            .from("curriculos")
-            .update({ pago: true } as any)
-            .eq("id", cvId);
-        } catch (err) {
-          console.warn("Could not sync payment to remote database column:", err);
-        }
+          const check = await verificarPagamentoFn({
+            reference: res.reference,
+            cvId,
+            authToken: session.access_token,
+          });
 
-        setEstado("sucesso");
-        setTimeout(() => {
-          onSuccess();
-          toast.success("Exportação de PDF desbloqueada!");
-          resetar();
-          onClose();
-        }, 1500);
+          if (check.paid) {
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+              pollIntervalRef.current = null;
+            }
+            localStorage.setItem(`pago_cv_${cvId}`, "true");
+            setEstado("sucesso");
+            setTimeout(() => {
+              onSuccess();
+              toast.success("Exportação de PDF desbloqueada!");
+              resetar();
+              onClose();
+            }, 1500);
+          } else if (["failed", "cancelled", "rejected"].includes(check.status)) {
+            if (pollIntervalRef.current) {
+              clearInterval(pollIntervalRef.current);
+              pollIntervalRef.current = null;
+            }
+            toast.error(`O pagamento falhou ou foi cancelado (Estado: ${check.status}).`);
+            resetar();
+          }
+        } catch (pollErr) {
+          console.error("Erro ao verificar pagamento:", pollErr);
+        }
       }, 3000);
-    }, 2000);
+
+    } catch (err) {
+      console.error("Erro ao iniciar pagamento:", err);
+      toast.error(err instanceof Error ? err.message : "Não foi possível iniciar o pagamento.");
+      setEstado("dados");
+    }
   };
 
   const resetar = () => {
     setEstado("dados");
     setTelefone("");
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current);
+      pollIntervalRef.current = null;
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      if (pollIntervalRef.current) {
+        clearInterval(pollIntervalRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) { resetar(); onClose(); } }}>
