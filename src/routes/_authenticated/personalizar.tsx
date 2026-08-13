@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, ArrowDown, ArrowUp, Eye, EyeOff, Save, RotateCcw, Download } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { PaymentModal } from "@/components/cv/PaymentModal";
 import { MODELOS, getModelo } from "@/lib/cv/modelos";
 import { DADOS_EXEMPLO } from "@/lib/cv/dados";
 import {
@@ -57,6 +58,7 @@ export const Route = createFileRoute("/_authenticated/personalizar")({
 
 function Personalizar() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { modelo: modeloUrl, cv } = Route.useSearch();
 
   const { data: curriculo, isLoading } = useQuery({
@@ -64,7 +66,7 @@ function Personalizar() {
     queryFn: async () => {
       const q = supabase
         .from("curriculos")
-        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis")
+        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, pago")
         .order("updated_at", { ascending: false })
         .limit(1);
       const { data } = cv ? await q.eq("id", cv) : await q;

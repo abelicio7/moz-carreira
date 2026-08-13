@@ -97,7 +97,7 @@ function EditarCv() {
     queryFn: async () => {
       const q = supabase
         .from("curriculos")
-        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, dados_pessoais")
+        .select("id, titulo, modelo, cor_principal, tipografia, espacamento, tamanho_fonte, ordem_seccoes, seccoes_visiveis, dados_pessoais, pago")
         .order("updated_at", { ascending: false })
         .limit(1);
       const { data } = cvId ? await q.eq("id", cvId) : await q;
